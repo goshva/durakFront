@@ -1,104 +1,99 @@
 <!DOCTYPE html>
 <html>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width">
 
-  <head>
-    <title>WebSocket Test</title>
-    <link rel="stylesheet" href="/css/style.css" />
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
-      crossorigin="anonymous"
-    />
-  </head>
+<head>
+  <title>WebSocket Test</title>
+  <link rel="stylesheet" href="/css/style.css" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
+</head>
 
-  <body>
-    <dialog class="players_number_dialogue">
-      <div class="logo">
-        <img src="./img/durak_logo.png" alt="Durak logo" class="logo_img">
-      </div>
-      <div class="players_number_flex">
-        <button class="players_number_button" data-players-number="2">
-          <p class="text-dark players_number_button_text">Вдвоем</p>
-        </button>
-        <button class="players_number_button" data-players-number="3">
-          <p class="text-dark players_number_button_text">Втроем</p>
-        </button>
-        <button class="players_number_button" data-players-number="4">
-          <p class="text-dark players_number_button_text">Вчетвером</p>
-        </button>
-      </div>
-    </dialog>
-    <div class="left">
-      <div class="spare"></div>
-      <div class="player2_container">
-        <div class="player2CardsContainer">
-          <div class="player-title player-title-2">
-            <h4 class="text-h4">
-              <span class="badge bg-light text-dark player2-name"></span>
-            </h4>
-            <div class="player2-role"></div>
-          </div>
+<body>
+  <dialog class="players_number_dialogue">
+    <div class="logo">
+      <img src="./img/durak_logo.png" alt="Durak logo" class="logo_img">
+    </div>
+    <div class="players_number_flex">
+      <button class="players_number_button" data-players-number="2">
+        <p class="text-dark players_number_button_text">Вдвоем</p>
+      </button>
+      <button class="players_number_button" data-players-number="3">
+        <p class="text-dark players_number_button_text">Втроем</p>
+      </button>
+      <button class="players_number_button" data-players-number="4">
+        <p class="text-dark players_number_button_text">Вчетвером</p>
+      </button>
+    </div>
+  </dialog>
+  <div class="left">
+    <div class="spare"></div>
+    <div class="player2_container">
+      <div class="player2CardsContainer">
+        <div class="player-title player-title-2">
+          <h4 class="text-h4">
+            <span class="badge bg-light text-dark player2-name"></span>
+          </h4>
+          <div class="player2-role"></div>
         </div>
       </div>
     </div>
-    <div class="right">
-      <div class="spare"></div>
-      <div class="player3_container">
-        
-          <div class="player3CardsContainer">
-            <div class="player-title player-title-3">
-              <h4 class="text-h4">
-                <span class="badge bg-light text-dark player3-name"></span>
-              </h4>
-              <div class="player3-role"></div>
-            </div>
-          </div>       
+  </div>
+  <div class="right">
+    <div class="spare"></div>
+    <div class="player3_container">
+
+      <div class="player3CardsContainer">
+        <div class="player-title player-title-3">
+          <h4 class="text-h4">
+            <span class="badge bg-light text-dark player3-name"></span>
+          </h4>
+          <div class="player3-role"></div>
+        </div>
       </div>
     </div>
-    <div class="field">
-      <header class="header">
-        <button class="deal_cards">Раздать карты</button>
-        <div class="player1_container">
-          <div class="player1CardsContainer"></div>
-          <div class="player-title-1">
-            <h4 class="text-h4">
-              <span class="badge bg-info text-dark player1-role"></span>
-            </h4>
-            <h4 class="text-h4">
-              <span class="badge bg-light text-dark player1-name"></span>
-            </h4>
-          </div>
+  </div>
+  <div class="field">
+    <header class="header">
+      <button class="deal_cards">Раздать карты</button>
+      <div class="player1_container">
+        <div class="player1CardsContainer"></div>
+        <div class="player-title-1">
+          <h4 class="text-h4">
+            <span class="badge bg-info text-dark player1-role"></span>
+          </h4>
+          <h4 class="text-h4">
+            <span class="badge bg-light text-dark player1-name"></span>
+          </h4>
         </div>
-      </header>
-      <section class="content">
-        <!-- <div class="data">
+      </div>
+    </header>
+    <section class="content">
+      <!-- <div class="data">
           <div id="output"></div>
         </div> -->
-        <div class="deck_flex">
+      <div class="deck_flex">
+      </div>
+      <div class="table_grid"></div>
+      <div class=></div>
+    </section>
+    <footer class="footer">
+      <div class="player0_container">
+        <div class="player-title-0">
+          <h4 class="text-h4">
+            <span class="badge bg-light player0-name text-dark"></span>
+          </h4>
+          <h4 class="text-h4">
+            <span class="badge bg-info text-dark player0-role"></span>
+          </h4>
         </div>
-        <div class="table_grid"></div>
-        <div class=></div>
-      </section>
-      <footer class="footer">
-        <div class="player0_container">
-          <div class="player-title-0">
-            <h4 class="text-h4">
-              <span class="badge bg-light player0-name text-dark"></span>
-            </h4>
-            <h4 class="text-h4">
-              <span class="badge bg-info text-dark player0-role"></span>
-            </h4>
-          </div>
-          <div class="player0CardsContainer"></div>
-        </div>
-      </footer>
-    </div>
-  </body>
+        <div class="player0CardsContainer"></div>
+      </div>
+    </footer>
+  </div>
+</body>
 
-  <script type="module" src="app.js"></script>
+<script type="module" src="app.js"></script>
 
-  <script src="main.js"></script>
 </html>
