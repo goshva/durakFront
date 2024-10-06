@@ -81,7 +81,7 @@ const renderCard = (card, container, cardsNumber, passes, index, players, handle
     image.classList.add(`cards_number-hover`);
     image.src = `/img/${suit}${rank}.png`;
 
-    // Handle card click for making a move
+    // Handle card click for making a move (for attacker)
     image.addEventListener('click', () => {
         const currentPlayer = players[0];  // Assume currentPlayer is the first in the list
         handlePlayerMove(currentPlayer, card); // Call handlePlayerMove on click
@@ -90,6 +90,8 @@ const renderCard = (card, container, cardsNumber, passes, index, players, handle
     div.appendChild(image);
     container.appendChild(div);
 };
+
+
 
 // Function to render cards for a player (either face-up or face-down)
 const renderCards = (players, player, container, isCurrentPlayer, passes, index, handlePlayerMove) => {
