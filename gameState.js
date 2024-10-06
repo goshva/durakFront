@@ -29,3 +29,8 @@ export const dealCards = (deck, numberOfPlayers, cardsPerPlayer = 6) => {
     const trump = deck[deck.length - 1][0];
     return { players, attacker, defender, deck, trump };  // Return remaining deck and players
 };
+
+export const switchTurn = (state) => {
+    const currentTurn = state.currentTurn;
+    state.currentTurn = currentTurn === state.attacker ? state.defender : state.attacker;
+};

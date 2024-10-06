@@ -1,5 +1,6 @@
-import handleCard from "./cardStyles.js";
+import handleCard from "./cardStyles.js"; // Import card styles
 
+// Mapping of card suits to image folder names
 const suitsMapping = {
     "♥": 'hearts',
     "♦": 'diamonds',
@@ -7,125 +8,7 @@ const suitsMapping = {
     "♠️": 'spades',
 };
 
-
-const dealingCardsMapping = {
-    0: 'translate(420px, 200px)',
-    1: 'translate(420px, -200px)',
-};
-
-function sound(sound){
-    var snd = new Audio(`./sounds/${sound}.mp3`)
-    snd.play()
-}
-
-const dealingCardsWith2Players = (attacker, defender, players) => {
-    const attackerNumber = players.findIndex((player) => JSON.stringify(player) === JSON.stringify(attacker));
-    const defenderNumber = players.findIndex((player) => JSON.stringify(player) === JSON.stringify(defender));
-    const order = [attackerNumber, defenderNumber];
-    let i = 0;
-    while (players[0].length < 6 && players[1].length < 6) {
-        order.map((number) => {
-            if (players[number] < 6) {
-                const lastCardInDeck = document.querySelector(`.deck_card_number_${i}`);
-                setTimeout(() => {
-                    sound('dealing_deck');
-                    lastCardInDeck.style.transform = dealingCardsMapping[number]
-                }, i * 200);
-                setTimeout(() => {
-                    lastCardInDeck.parentNode.removeChild(lastCardInDeck);
-                }, i * 200 + 200); 
-                dealingCardsMapping[attackerNumber](lastCardInDeck, i);
-                players[number] += 1;
-                i += 1
-            }
-        })
-    }
-};
-
-const dealingCards = (players_count, players, attacker, defender, deck) => {
-    switch (players_count) {
-        case 2:
-            dealingCardsWith2Players(attacker, defender, players, deck);
-
-    }
-};
-
-
-const renderCard = (card, container, cardsNumber, passes, index, players) => {
-    const [symbol, rank] = card;
-    const suit = suitsMapping[symbol];
-    const image = document.createElement('img');
-    const div = document.createElement('div');
-    div.classList.add('grid-item');
-    image.classList.add('card_img');
-    image.classList.add('player-cards');
-    image.classList.add(`cards_number-hover`);
-    image.src = `/img/${suit}${rank}.png`;
-    // Карты кладутся на стол в зависимости от их количества, если я правильно понимаю
-    // что pass это те карты которые сейчас в игре???
-    
-
-    image.addEventListener('click', () => handleCard(image, passes, index), {once: true});
-    div.appendChild(image);
-    container.appendChild(div);
-};
-
-const renderBackCard = (container, className) => {
-    const div = document.createElement('div');
-    div.classList.add('grid-item');
-    const image = document.createElement('img');
-    image.classList.add('card_img');
-    image.classList.add('card_back');
-    image.classList.add(className);
-    image.src = '/img/card-back.png';
-    div.appendChild(image)
-    container.appendChild(div);
-};
-
-const renderCards = (players, player, container, current, passes, index) => {
-    const cardsNumber = player.length;
-    passes = 0;
-    current ? player.forEach((card) => {
-        renderCard(card, container, cardsNumber, passes, index, players);
-        passes += 1;
-    }) : player.forEach(() => renderBackCard(container, 'player-cards'));
-};
-
-const renderPlayerRoles = (players, attacker, defender) => {
-    const defenderIcon = new Image();
-    defenderIcon.classList.add('icon');
-    defenderIcon.src = './img/defender-icon.svg';
-    const attackerIcon = new Image();
-    attackerIcon.src = './img/attacker-icon.svg';
-    attackerIcon.classList.add('icon')
-    for (let i = 0; i < players.length; i += 1) {
-        const playerRoleTextEl = document.querySelector(`.player${i}-role`);
-        if (JSON.stringify(players[i]) === JSON.stringify(attacker)) {
-            playerRoleTextEl.appendChild(attackerIcon)
-        } else if (JSON.stringify(players[i]) === JSON.stringify(defender)) {
-            playerRoleTextEl.appendChild(defenderIcon);
-        }
-    }
-};
-
-const renderPlayersNames = (players_count) => {
-    for (let i = 0; i < players_count; i += 1) {
-        const playerNameTextEl = document.querySelector(`.player${i}-name`);
-        playerNameTextEl.textContent = `player${i}`;
-    }
-};
-
-const renderLastCard = (card, container) => {
-    const [symbol, rank] = card;
-    const suit = suitsMapping[symbol];
-    const image = document.createElement('img');
-    image.classList.add('card_img');
-    image.classList.add('lastCard');
-    image.src = `/img/${suit}${rank}.png`;
-    container.appendChild(image);
-};
-
-
+// Function to render the deck of cards
 const renderDeck = (deck) => {
     const lastCard = deck[deck.length - 1];
     const container = document.querySelector('.deck_flex');
@@ -142,36 +25,125 @@ const renderDeck = (deck) => {
     });
 };
 
-const renderPlayerCards = (players, currentPlayer, passes) => {
+// Helper function to render the last card in the deck
+const renderLastCard = (card, container) => {
+    const [symbol, rank] = card;
+    const suit = suitsMapping[symbol];
+    const image = document.createElement('img');
+    image.classList.add('card_img');
+    image.classList.add('lastCard');
+    image.src = `/img/${suit}${rank}.png`;
+    container.appendChild(image);
+};
+
+// Helper function to render the back of a card (for face-down cards)
+const renderBackCard = (container, className) => {
+    const div = document.createElement('div');
+    div.classList.add('grid-item');
+    const image = document.createElement('img');
+    image.classList.add('card_img');
+    image.classList.add('card_back');
+    image.classList.add(className);
+    image.src = '/img/card-back.png';
+    div.appendChild(image);
+    container.appendChild(div);
+};
+
+// Function to render player roles (attacker/defender icons)
+const renderPlayerRoles = (players, attacker, defender) => {
+    const defenderIcon = new Image();
+    defenderIcon.classList.add('icon');
+    defenderIcon.src = './img/defender-icon.svg';
+
+    const attackerIcon = new Image();
+    attackerIcon.classList.add('icon');
+    attackerIcon.src = './img/attacker-icon.svg';
+
+    for (let i = 0; i < players.length; i += 1) {
+        const playerRoleTextEl = document.querySelector(`.player${i}-role`);
+        if (JSON.stringify(players[i]) === JSON.stringify(attacker)) {
+            playerRoleTextEl.appendChild(attackerIcon);
+        } else if (JSON.stringify(players[i]) === JSON.stringify(defender)) {
+            playerRoleTextEl.appendChild(defenderIcon);
+        }
+    }
+};
+
+// Function to render each card for a player
+const renderCard = (card, container, cardsNumber, passes, index, players, handlePlayerMove) => {
+    const [symbol, rank] = card;
+    const suit = suitsMapping[symbol];
+    const image = document.createElement('img');
+    const div = document.createElement('div');
+    div.classList.add('grid-item');
+    image.classList.add('card_img');
+    image.classList.add('player-cards');
+    image.classList.add(`cards_number-hover`);
+    image.src = `/img/${suit}${rank}.png`;
+
+    // Handle card click for making a move
+    image.addEventListener('click', () => {
+        const currentPlayer = players[0];  // Assume currentPlayer is the first in the list
+        handlePlayerMove(currentPlayer, card); // Call handlePlayerMove on click
+    }, { once: true });
+
+    div.appendChild(image);
+    container.appendChild(div);
+};
+
+// Function to render cards for a player (either face-up or face-down)
+const renderCards = (players, player, container, isCurrentPlayer, passes, index, handlePlayerMove) => {
+    passes = 0;
+    if (isCurrentPlayer) {
+        player.forEach((card) => {
+            renderCard(card, container, player.length, passes, index, players, handlePlayerMove);
+            passes += 1;
+        });
+    } else {
+        player.forEach(() => renderBackCard(container, 'player-cards'));
+    }
+};
+
+// Function to render all player cards
+const renderPlayerCards = (players, currentPlayer, passes, handlePlayerMove) => {
     let i = 0;
     players.forEach((player) => {
         const playerCardsDiv = document.querySelector(`.player${i}CardsContainer`);
-        player === currentPlayer ? renderCards(players, player, playerCardsDiv, true, passes, i) :
-        renderCards(players, player, playerCardsDiv, false, passes, i);
+        const isCurrentPlayer = player === currentPlayer;
+        renderCards(players, player, playerCardsDiv, isCurrentPlayer, passes, i, handlePlayerMove);
         i += 1;
     });
-    
 };
 
-const runApp = (players, passes, attacker, defender, deck, players_count) => {
-    renderDeck(deck);
-    renderPlayerRoles(players, attacker, defender)
-    renderPlayersNames(players_count);
-    renderPlayerCards(players, players[0], passes);
+// Function to render player names
+const renderPlayersNames = (players_count) => {
+    for (let i = 0; i < players_count; i += 1) {
+        const playerNameTextEl = document.querySelector(`.player${i}-name`);
+        playerNameTextEl.textContent = `Player ${i + 1}`;
+    }
 };
 
-export default (state) => (path, value) => {
+// Main function to run the app and render the game state
+const runApp = (players, passes, attacker, defender, deck, players_count, handlePlayerMove) => {
+    renderDeck(deck); // Call renderDeck to display the deck
+    renderPlayerRoles(players, attacker, defender); // Render player roles (attacker/defender)
+    renderPlayersNames(players_count); // Render player names
+    renderPlayerCards(players, players[0], passes, handlePlayerMove); // Pass handlePlayerMove
+};
+
+// Export the main render function
+export default (state, handlePlayerMove) => (path, value) => {
     const { init, attacker, deck, defender, passes, players, players_count } = state;
     if (init) {
         switch (path) {
             case 'init':
-                runApp(players, passes, attacker, defender, deck, players_count);
+                runApp(players, passes, attacker, defender, deck, players_count, handlePlayerMove);
                 break;
             case 'deck':
                 renderDeck(value);
                 break;
             case 'players':
-                renderPlayerCards(value, value[0], passes);
+                renderPlayerCards(value, value[0], passes, handlePlayerMove);
                 break;
             case 'attacker':
                 renderPlayerRoles(players, attacker, defender);
@@ -180,7 +152,7 @@ export default (state) => (path, value) => {
                 renderPlayerRoles(players, attacker, defender);
                 break;
             case 'passes':
-                renderPlayerCards(value, value[0], passes);
+                renderPlayerCards(value, value[0], passes, handlePlayerMove);
                 break;
             case 'round':
                 dealingCards(players_count, players, attacker, defender);
@@ -189,4 +161,4 @@ export default (state) => (path, value) => {
                 break;
         }
     }
-}
+};
